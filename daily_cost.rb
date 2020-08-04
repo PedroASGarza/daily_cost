@@ -5,6 +5,8 @@ require './date_validator'
 require './period_costs_validator'
 
 class DailyCost
+  attr_reader :errors, :days_costs
+
   def initialize(params = {})
     @days_costs = []
     @start_date = params[:start_date]
@@ -64,26 +66,3 @@ class DailyCost
     cost/date.end_of_month.day
   end
 end
-
-
-all_time_periods = %w(daily weekly monthly)
-
-time_period_costs = [
-  {
-    time_period: all_time_periods[0], # daily
-    cost: 10.0
-  },
-  {
-    time_period: all_time_periods[1], # weekly
-    cost: 70.0,
-  }
-]
-
-params = {
-  start_date: Date.new(2019, 10, 3),
-  end_date: Date.new(2019, 10, 1),
-  time_period_costs: time_period_costs
-}
-
-daily_cost = DailyCost.new(params)
-daily_cost.execute
